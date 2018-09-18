@@ -21,7 +21,7 @@ public class Application {
         Map<String, String> handledExtension = new HashMap<>();
         handledExtension.put("jpg", "-1 -40 -1 -32 0 16");
         handledExtension.put("gif", "71 73 70 56 57 97");
-        handledExtension.put("txt", "FF D8 FF E0 00");
+        handledExtension.put("txt", "10");
         return handledExtension;
     }
 

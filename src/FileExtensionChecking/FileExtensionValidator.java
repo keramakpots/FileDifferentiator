@@ -1,10 +1,8 @@
 package FileExtensionChecking;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.URLConnection;
+import FileExtensionChecking.exceptions.NotHandledExtensionException;
+import FileExtensionChecking.exceptions.OtherExtensionException;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 public class FileExtensionValidator {
@@ -16,34 +14,50 @@ public class FileExtensionValidator {
     }
 
     boolean checkExtension(byte[] fileBytes, String path)
-        throws IOException {
+        throws OtherExtensionException, NotHandledExtensionException {
+        byte endOfFileByte = fileBytes[fileBytes.length - 1];
         String code = getBegginingByteCode(fileBytes);
         String extensionFromAPath = getExtensionFromPath(path);
-        String extensionExpectedCode = handledExtensions
-            .get(URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(fileBytes)));
-        return true;
-//        if (extensionExpectedCode == null) {
-//            throw new NotHandledExtensionException();
-//        } else {
-//            if (code.equals(extensionExpectedCode)) {
-//                return true;
-//            } else {
-//                Optional<String> actualExtension = getActualExtension(extensionFromAPath);
-//                if (actualExtension.isPresent()) {
-//                    throw new OtherExtensionException(actualExtension.get());
-//                } else {
-//                    throw new NotHandledExtensionException();
-//                }
-//            }
-//        }
+        String codeByExtFromAPath = handledExtensions.get(extensionFromAPath);
+        String extActual = checkWhichBytesArePresentInMap(endOfFileByte, code);
+        if (String.valueOf(endOfFileByte).equals("10") && extensionFromAPath.equals(extActual)) {
+            return true;
+        }
+        if (extActual == null) {
+            throw new NotHandledExtensionException();
+        } else {
+            if (code.equals(codeByExtFromAPath) && extActual.equals(extensionFromAPath)) {
+                return true;
+            } else {
+                Optional<String> extension = getActualExtension(extensionFromAPath);
+                if (extension.isPresent()) {
+                    throw new OtherExtensionException(extension.get());
+                } else {
+                    throw new NotHandledExtensionException();
+                }
+            }
+        }
     }
 
-    private Optional<String> getActualExtension(String extensionFromAPath) {
-        return handledExtensions.entrySet()
-            .stream()
-            .filter(entry -> Objects.equals(entry.getValue(), extensionFromAPath))
-            .map(Map.Entry::getKey)
-            .findFirst();
+    private String checkWhichBytesArePresentInMap(byte endOfFileByte, String code) {
+        String extensionExpectedCode = null;
+        if (getActualExtension(String.valueOf(endOfFileByte)).isPresent()) {
+            extensionExpectedCode = handledExtensions
+                .get(getActualExtension(String.valueOf(endOfFileByte)).get());
+        } else if (getActualExtension(String.valueOf(code)).isPresent()) {
+            extensionExpectedCode = handledExtensions
+                .get(getActualExtension(code).get());
+        }
+        return extensionExpectedCode;
+    }
+
+    private Optional<String> getActualExtension(String byteCode) {
+        for (String key : handledExtensions.keySet()) {
+            if (handledExtensions.get(key).equals(byteCode)) {
+                return Optional.ofNullable(handledExtensions.get(key));
+            }
+        }
+        return Optional.empty();
     }
 
     private String getExtensionFromPath(String path) {
