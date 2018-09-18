@@ -60,6 +60,10 @@ public class FileExtensionValidator {
             for (int i = 0; i < 10; i++) {
                 code += String.valueOf(fileBytes[i]) + " ";
             }
+        } else {
+            for (int i = 0; i < fileBytes.length; i++) {
+                code += String.valueOf(fileBytes[i]) + " ";
+            }
         }
         return code.trim();
     }
