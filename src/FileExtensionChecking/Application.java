@@ -1,6 +1,5 @@
 package FileExtensionChecking;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +20,12 @@ public class Application {
     }
 
     public void run() {
-        File file = new File(PATH_TO_GIF_FILE);
+        FileBinaryConverter fileBinaryConverter = new FileBinaryConverter();
+        String fileBytes = fileBinaryConverter.read(PATH_TO_GIF_FILE).toString();
         FileExtensionValidator fileExtensionValidator = new FileExtensionValidator(
             addHandledExtensions());
         try {
-            System.out.println(fileExtensionValidator.checkExtension(file));
+            System.out.println(fileExtensionValidator.checkExtension(fileBytes));
         } catch (IOException e) {
             e.printStackTrace();
         }
