@@ -1,7 +1,8 @@
 package FileExtensionChecking;
 
 import java.io.File;
-import java.util.Collections;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Application {
@@ -12,7 +13,7 @@ public class Application {
     private final String PATH_TO_FILE_WITH_ERROR = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/małże.gif";
 
     private Map<String, String> addHandledExtensions() {
-        Map<String, String> handledExtension = Collections.EMPTY_MAP;
+        Map<String, String> handledExtension = new HashMap<>();
         handledExtension.put("jpg", "FF D8 FF E0 00 10 4A 46 49 46 00 01");
         handledExtension.put("gif", "47 49 46 38 37 61");
         handledExtension.put("txt", "FF D8 FF E0 00");
@@ -23,5 +24,10 @@ public class Application {
         File file = new File(PATH_TO_GIF_FILE);
         FileExtensionValidator fileExtensionValidator = new FileExtensionValidator(
             addHandledExtensions());
+        try {
+            System.out.println(fileExtensionValidator.checkExtension(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
