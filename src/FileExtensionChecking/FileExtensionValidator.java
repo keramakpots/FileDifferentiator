@@ -1,7 +1,5 @@
 package FileExtensionChecking;
 
-import FileExtensionChecking.exceptions.NotHandledExtensionException;
-import FileExtensionChecking.exceptions.OtherExtensionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URLConnection;
@@ -18,25 +16,26 @@ public class FileExtensionValidator {
     }
 
     boolean checkExtension(byte[] fileBytes, String path)
-        throws NotHandledExtensionException, OtherExtensionException, IOException {
+        throws IOException {
         String code = getBegginingByteCode(fileBytes);
         String extensionFromAPath = getExtensionFromPath(path);
         String extensionExpectedCode = handledExtensions
             .get(URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(fileBytes)));
-        if (extensionExpectedCode == null) {
-            throw new NotHandledExtensionException();
-        } else {
-            if (code.equals(extensionExpectedCode)) {
-                return true;
-            } else {
-                Optional<String> actualExtension = getActualExtension(extensionFromAPath);
-                if (actualExtension.isPresent()) {
-                    throw new OtherExtensionException(actualExtension.get());
-                } else {
-                    throw new NotHandledExtensionException();
-                }
-            }
-        }
+        return true;
+//        if (extensionExpectedCode == null) {
+//            throw new NotHandledExtensionException();
+//        } else {
+//            if (code.equals(extensionExpectedCode)) {
+//                return true;
+//            } else {
+//                Optional<String> actualExtension = getActualExtension(extensionFromAPath);
+//                if (actualExtension.isPresent()) {
+//                    throw new OtherExtensionException(actualExtension.get());
+//                } else {
+//                    throw new NotHandledExtensionException();
+//                }
+//            }
+//        }
     }
 
     private Optional<String> getActualExtension(String extensionFromAPath) {
@@ -57,8 +56,10 @@ public class FileExtensionValidator {
 
     private String getBegginingByteCode(byte[] fileBytes) {
         String code = "";
-        for (int i = 0; i < 10; i++) {
-            code += String.valueOf(fileBytes[i]) + " ";
+        if (fileBytes.length > 10) {
+            for (int i = 0; i < 10; i++) {
+                code += String.valueOf(fileBytes[i]) + " ";
+            }
         }
         return code.trim();
     }
