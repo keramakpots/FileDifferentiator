@@ -13,7 +13,7 @@ public class FileBinaryConverter {
     public FileBinaryConverter() {
     }
 
-    byte[] read(String inputFileName) {
+    byte[] read(String inputFileName) throws IOException {
         Logger.log("Reading in binary file named : " + inputFileName);
         File file = new File(inputFileName);
         Logger.log("File size: " + file.length());
@@ -37,8 +37,6 @@ public class FileBinaryConverter {
             }
         } catch (FileNotFoundException ex) {
             Logger.log("File not found.");
-        } catch (IOException ex) {
-            Logger.log(ex);
         }
         return result;
     }
