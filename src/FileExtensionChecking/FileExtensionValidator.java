@@ -9,6 +9,7 @@ public class FileExtensionValidator {
 
     Map<String, String> handledExtensions;
 
+    //todo reading handled extensions map from a file
     public FileExtensionValidator(Map handledExtensions) {
         this.handledExtensions = handledExtensions;
     }
@@ -19,6 +20,12 @@ public class FileExtensionValidator {
         String code = getBegginingByteCode(fileBytes);
         String extensionFromAPath = getExtensionFromPath(path);
         String codeByExtFromAPath = handledExtensions.get(extensionFromAPath);
+        // didn't no if allowed to use
+//        try {
+//            String actualExt = Files.probeContentType(new File(path).toPath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         Optional<String> extActual = checkWhichBytesArePresentInMap(endOfFileByte, code);
         if (String.valueOf(endOfFileByte).equals("10") && extensionFromAPath
             .equals(extActual.get())) {
@@ -30,9 +37,8 @@ public class FileExtensionValidator {
             if (code.equals(codeByExtFromAPath) && extActual.get().equals(extensionFromAPath)) {
                 return true;
             } else {
-                Optional<String> extension = getActualExtension(extensionFromAPath);
-                if (extension.isPresent()) {
-                    throw new OtherExtensionException(extension.get());
+                if (extActual.isPresent()) {
+                    throw new OtherExtensionException(extActual.get());
                 } else {
                     throw new NotHandledExtensionException();
                 }

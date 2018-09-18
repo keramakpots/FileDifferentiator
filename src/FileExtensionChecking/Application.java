@@ -36,7 +36,7 @@ public class Application {
             checkIfFileHasProperExtension(PATH_TO_FILE_WITH_ERROR);
         } catch (OtherExtensionException e) {
             Logger.log("File has different extension than its stays. It's " + e.getExtension()
-                + "extemsion");
+                + " extension");
         } catch (NotHandledExtensionException e) {
             Logger.log("File extension is not supported");
         }
