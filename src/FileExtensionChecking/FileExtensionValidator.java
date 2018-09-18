@@ -11,11 +11,15 @@ public class FileExtensionValidator {
     }
 
     boolean checkExtension(byte[] fileBytes, String path) {
+        String code = getBegginingByteCode(fileBytes);
+        return true;
+    }
+
+    private String getBegginingByteCode(byte[] fileBytes) {
         String code = "";
         for (int i = 0; i < 10; i++) {
             code += String.valueOf(fileBytes[i]) + " ";
         }
-        code.trim();
-        return true;
+        return code.trim();
     }
 }
