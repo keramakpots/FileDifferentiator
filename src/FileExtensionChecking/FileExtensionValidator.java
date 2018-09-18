@@ -19,14 +19,15 @@ public class FileExtensionValidator {
         String code = getBegginingByteCode(fileBytes);
         String extensionFromAPath = getExtensionFromPath(path);
         String codeByExtFromAPath = handledExtensions.get(extensionFromAPath);
-        String extActual = checkWhichBytesArePresentInMap(endOfFileByte, code);
-        if (String.valueOf(endOfFileByte).equals("10") && extensionFromAPath.equals(extActual)) {
+        Optional<String> extActual = checkWhichBytesArePresentInMap(endOfFileByte, code);
+        if (String.valueOf(endOfFileByte).equals("10") && extensionFromAPath
+            .equals(extActual.get())) {
             return true;
         }
-        if (extActual == null) {
+        if (!extActual.isPresent()) {
             throw new NotHandledExtensionException();
         } else {
-            if (code.equals(codeByExtFromAPath) && extActual.equals(extensionFromAPath)) {
+            if (code.equals(codeByExtFromAPath) && extActual.get().equals(extensionFromAPath)) {
                 return true;
             } else {
                 Optional<String> extension = getActualExtension(extensionFromAPath);
@@ -39,14 +40,12 @@ public class FileExtensionValidator {
         }
     }
 
-    private String checkWhichBytesArePresentInMap(byte endOfFileByte, String code) {
-        String extensionExpectedCode = null;
+    private Optional<String> checkWhichBytesArePresentInMap(byte endOfFileByte, String code) {
+        Optional<String> extensionExpectedCode = null;
         if (getActualExtension(String.valueOf(endOfFileByte)).isPresent()) {
-            extensionExpectedCode = handledExtensions
-                .get(getActualExtension(String.valueOf(endOfFileByte)).get());
+            extensionExpectedCode = getActualExtension(String.valueOf(endOfFileByte));
         } else if (getActualExtension(String.valueOf(code)).isPresent()) {
-            extensionExpectedCode = handledExtensions
-                .get(getActualExtension(code).get());
+            extensionExpectedCode = getActualExtension(code);
         }
         return extensionExpectedCode;
     }
@@ -54,7 +53,7 @@ public class FileExtensionValidator {
     private Optional<String> getActualExtension(String byteCode) {
         for (String key : handledExtensions.keySet()) {
             if (handledExtensions.get(key).equals(byteCode)) {
-                return Optional.ofNullable(handledExtensions.get(key));
+                return Optional.ofNullable(key);
             }
         }
         return Optional.empty();
