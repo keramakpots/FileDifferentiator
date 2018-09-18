@@ -56,8 +56,8 @@ public class FileExtensionValidator {
 
     private String getBegginingByteCode(byte[] fileBytes) {
         String code = "";
-        if (fileBytes.length > 10) {
-            for (int i = 0; i < 10; i++) {
+        if (fileBytes.length > 6) {
+            for (int i = 0; i < 6; i++) {
                 code += String.valueOf(fileBytes[i]) + " ";
             }
         } else {

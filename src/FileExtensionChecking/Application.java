@@ -14,12 +14,13 @@ public class Application {
     private final String PATH_TO_TXT_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/task.txt";
     private final String PATH_TO_TXT2_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/test.txt";
     private final String PATH_TO_JPG_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/małże jpg.jpg";
+    private final String PATH_TO_JPG2_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/IMG.jpg";
     private final String PATH_TO_FILE_WITH_ERROR = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/małże.gif";
 
     public Map<String, String> addHandledExtensions() {
         Map<String, String> handledExtension = new HashMap<>();
-        handledExtension.put("jpg", "FF D8 FF E0 00 10 4A 46 49 46 00 01");
-        handledExtension.put("gif", "47 49 46 38 37 61");
+        handledExtension.put("jpg", "-1 -40 -1 -32 0 16");
+        handledExtension.put("gif", "71 73 70 56 57 97");
         handledExtension.put("txt", "FF D8 FF E0 00");
         return handledExtension;
     }
@@ -31,6 +32,7 @@ public class Application {
             checkIfFileHasProperExtension(PATH_TO_GIF_FILE);
             checkIfFileHasProperExtension(PATH_TO_GIF2_FILE);
             checkIfFileHasProperExtension(PATH_TO_JPG_FILE);
+            checkIfFileHasProperExtension(PATH_TO_JPG2_FILE);
             checkIfFileHasProperExtension(PATH_TO_FILE_WITH_ERROR);
         } catch (OtherExtensionException e) {
             Logger.log("File has different extension than its stays. It's " + e.getExtension()
@@ -50,7 +52,9 @@ public class Application {
                 addHandledExtensions());
             fileExtensionValidator.checkExtension(fileBytes, path);
             message = "File " + path + " has true extension";
+            Logger.log("-----------");
             Logger.log(message);
+            Logger.log("-----------");
         } catch (IOException e) {
             Logger.log(e);
         }
