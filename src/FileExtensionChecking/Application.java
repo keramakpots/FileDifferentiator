@@ -1,5 +1,7 @@
 package FileExtensionChecking;
 
+import FileExtensionChecking.exceptions.NotHandledExtensionException;
+import FileExtensionChecking.exceptions.OtherExtensionException;
 import FileExtensionChecking.util.Logger;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,24 +23,33 @@ public class Application {
     }
 
     public void run() {
-        checkIfFileHasProperExtension(PATH_TO_TXT_FILE);
-        checkIfFileHasProperExtension(PATH_TO_GIF_FILE);
-        checkIfFileHasProperExtension(PATH_TO_JPG_FILE);
-        checkIfFileHasProperExtension(PATH_TO_FILE_WITH_ERROR);
+        try {
+            checkIfFileHasProperExtension(PATH_TO_TXT_FILE);
+            checkIfFileHasProperExtension(PATH_TO_GIF_FILE);
+            checkIfFileHasProperExtension(PATH_TO_JPG_FILE);
+            checkIfFileHasProperExtension(PATH_TO_FILE_WITH_ERROR);
+        } catch (OtherExtensionException e) {
+            Logger.log("File has different extension than its stays. It's " + e.getExtension()
+                + "extemsion");
+        } catch (NotHandledExtensionException e) {
+            Logger.log("File extension is not supported");
+        }
     }
 
-    public String checkIfFileHasProperExtension(String path) {
+    public String checkIfFileHasProperExtension(String path)
+        throws OtherExtensionException, NotHandledExtensionException {
         FileBinaryConverter fileBinaryConverter = new FileBinaryConverter();
+        String message = "";
         try {
             byte[] fileBytes = fileBinaryConverter.read(path);
             FileExtensionValidator fileExtensionValidator = new FileExtensionValidator(
                 addHandledExtensions());
-            fileExtensionValidator.checkExtension(fileBytes);
-            String message = "File " + path + " has true extension";
+            fileExtensionValidator.checkExtension(fileBytes, path);
+            message = "File " + path + " has true extension";
             Logger.log(message);
-            return message;
         } catch (IOException e) {
             Logger.log(e);
         }
+        return message;
     }
 }

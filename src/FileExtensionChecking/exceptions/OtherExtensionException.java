@@ -2,7 +2,13 @@ package FileExtensionChecking.exceptions;
 
 public class OtherExtensionException extends Exception {
 
-    public OtherExtensionException(String message) {
-        super(message);
+    private String extension;
+
+    public OtherExtensionException(String extension) {
+        this.extension = extension;
+    }
+
+    public String getExtension() {
+        return extension;
     }
 }
