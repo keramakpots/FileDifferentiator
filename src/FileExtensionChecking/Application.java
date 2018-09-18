@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class Application {
 
-    private final String PATH_TO_GIF_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/DanceGif.gif";
-    private final String PATH_TO_GIF2_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/Loading_icon.gif";
-    private final String PATH_TO_TXT_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/task.txt";
-    private final String PATH_TO_TXT2_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/test.txt";
-    private final String PATH_TO_JPG_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/małże jpg.jpg";
-    private final String PATH_TO_JPG2_FILE = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/IMG.jpg";
-    private final String PATH_TO_FILE_WITH_ERROR = "/home/marek/kodowanie/Java/FileDifferentiator/testFiles/małże.gif";
+    private final String PATH_TO_GIF_FILE = "testFiles/DanceGif.gif";
+    private final String PATH_TO_GIF2_FILE = "testFiles/Loading_icon.gif";
+    private final String PATH_TO_TXT_FILE = "testFiles/task.txt";
+    private final String PATH_TO_TXT2_FILE = "testFiles/test.txt";
+    private final String PATH_TO_JPG_FILE = "testFiles/małże jpg.jpg";
+    private final String PATH_TO_JPG2_FILE = "testFiles/IMG.jpg";
+    private final String PATH_TO_FILE_WITH_ERROR = "testFiles/małże.gif";
 
     public Map<String, String> addHandledExtensions() {
         Map<String, String> handledExtension = new HashMap<>();
