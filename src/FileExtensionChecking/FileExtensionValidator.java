@@ -2,6 +2,9 @@ package FileExtensionChecking;
 
 import FileExtensionChecking.exceptions.NotHandledExtensionException;
 import FileExtensionChecking.exceptions.OtherExtensionException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,10 +18,11 @@ public class FileExtensionValidator {
     }
 
     boolean checkExtension(byte[] fileBytes, String path)
-        throws NotHandledExtensionException, OtherExtensionException {
+        throws NotHandledExtensionException, OtherExtensionException, IOException {
         String code = getBegginingByteCode(fileBytes);
         String extensionFromAPath = getExtensionFromPath(path);
-        String extensionExpectedCode = handledExtensions.get(extensionFromAPath);
+        String extensionExpectedCode = handledExtensions
+            .get(URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(fileBytes)));
         if (extensionExpectedCode == null) {
             throw new NotHandledExtensionException();
         } else {
