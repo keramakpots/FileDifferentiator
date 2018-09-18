@@ -1,6 +1,6 @@
 package FileExtensionChecking;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 public class FileExtensionValidator {
@@ -11,8 +11,8 @@ public class FileExtensionValidator {
         this.handledExtensions = handledExtensions;
     }
 
-    boolean checkExtension(File file) {
-
+    boolean checkExtension(String fileBytes) throws IOException {
+        System.out.println(fileBytes);
         return true;
     }
 }
